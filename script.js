@@ -18,6 +18,9 @@ const startCards = startCardsData.map(c => ({ ...c, image: `assets/cards/${c.ran
 
 // --- Setup ---
 window.onload = () => {
+  // --- Kartenbilder in Cache laden ---
+  preloadCards();
+
   // Alles außer Startscreen ausblenden
   document.getElementById("game").style.display = "none";
 
@@ -28,6 +31,29 @@ window.onload = () => {
   discardEl.addEventListener("dragover", e => e.preventDefault());
   discardEl.addEventListener("drop", e => handleDiscardDrop(e));
 };
+
+// --- Funktion zum Preload aller Karten ---
+function preloadCards() {
+  const images = [];
+  
+  // Standardkarten
+  for (let suit of suits) {
+    for (let rank of ranks) {
+      const img = new Image();
+      img.src = `assets/cards/${rank}${suit}.png`;
+      images.push(img);
+    }
+  }
+
+  // Joker
+  const joker1 = new Image();
+  joker1.src = "assets/cards/JOKER1.png";
+  images.push(joker1);
+
+  const joker2 = new Image();
+  joker2.src = "assets/cards/JOKER2.png";
+  images.push(joker2);
+}
 
 
 // === Startscreen anzeigen ===
@@ -350,5 +376,6 @@ function endGame() {
 function calculatePoints(nests) {
   return nests.reduce((acc, nest) => acc + nest.length * nest.length, 0);
 }
+
 
 
