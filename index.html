@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aviary – Kartenspiel</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- === Info-Icon (oben rechts) === -->
+  <div id="info-icon" class="info-icon" 
+       style="position: fixed; top: 15px; right: 15px; cursor: pointer; z-index: 10000;">
+    <img src="assets/info.png" alt="Regeln anzeigen" width="32" height="32">
+  </div>
+
+  <!-- === Regelwerk-Overlay (PDF) === -->
+  <div id="rules-overlay" 
+       style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); 
+              justify-content: center; align-items: center; z-index: 9999;">
+    <div style="position: relative; width: 90%; height: 90%; background: #000; border-radius: 10px; overflow: hidden;">
+      <iframe src="assets/rules.pdf" title="Regelwerk"
+              style="width: 100%; height: 100%; border: none;"></iframe>
+      <button id="close-rules-btn"
+              style="position: absolute; top: 10px; right: 15px; background: #e76f51; color: white; 
+                     border: none; border-radius: 8px; padding: 6px 12px; font-size: 1rem; cursor: pointer;">
+        ✕
+      </button>
+    </div>
+  </div>
+
+  <!-- === Startscreen für Auswahl der Startkarten === -->
+  <div id="start-screen" 
+       style="position: fixed; inset: 0; background: rgba(0, 0, 0, 0.92); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9998; text-align: center;">
+    <h1>🪺 Wähle deine Startkarten 🪺</h1>
+    <p>Du kannst beliebig viele dieser Karten auswählen (auch keine).</p>
+    <div id="start-cards" class="nest-container" 
+         style="display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 20px 0;"></div>
+    <button id="start-game-btn" 
+            style="padding: 10px 20px; background: #2a9d8f; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+      Spiel starten
+    </button>
+  </div>
+
+  <!-- === Hauptspielbereich === -->
+  <div id="game" style="display: none;"> <!-- wird erst nach Start eingeblendet -->
+    <h1 style="text-align: center;">🪺 Aviary 🪺</h1>
+
+    <div id="game-container" style="display: flex; align-items: flex-start; gap: 20px; justify-content: center;">
+
+      <!-- Ablagestapel links -->
+      <div id="discard-area">
+        <h2>Ablagestapel</h2>
+        <div class="nest-container">
+          <div class="nest empty" id="discard-pile"></div>
+        </div>
+      </div>
+
+      <!-- Spielfeld (zentrierter Block) -->
+      <div id="game-block" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+
+        <!-- Bot-Bereich -->
+        <div id="bot-area">
+          <h2>Bot-Nester</h2>
+          <div class="nest-container" id="bot-nests"></div>
+        </div>
+
+        <!-- Kartenmitte -->
+        <div id="center-area" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+          <div class="deck">
+            <img id="deck-image" src="assets/cards/back.png" alt="Deck" />
+            <p id="deck-count"></p>
+          </div>
+          <div id="drawn-cards" style="display: flex; gap: 10px;"></div>
+        </div>
+
+        <!-- Spielerbereich -->
+        <div id="player-area">
+          <h2>Deine Nester</h2>
+          <div class="nest-container" id="player-nests"></div>
+        </div>
+
+      </div> <!-- Ende game-block -->
+
+    </div> <!-- Ende game-container -->
+
+    <!-- Punktestand -->
+    <div id="controls" style="text-align: center; margin-top: 20px;">
+      <p id="score-display"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+  <!-- === Regelwerk-Steuerung === -->
+  <script>
+    const infoIcon = document.getElementById("info-icon");
+    const rulesOverlay = document.getElementById("rules-overlay");
+    const closeRulesBtn = document.getElementById("close-rules-btn");
+
+    infoIcon.addEventListener("click", () => {
+      rulesOverlay.style.display = "flex";
+    });
+
+    closeRulesBtn.addEventListener("click", () => {
+      rulesOverlay.style.display = "none";
+    });
+  </script>
+</body>
+</html>
